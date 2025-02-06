@@ -6,10 +6,8 @@ import Footer from "./components/Footer.vue";
 
 const route = useRoute();
 
-// Реактивное состояние авторизации
 const isAuthenticated = ref(localStorage.getItem("isAuthenticated") === "true");
 
-// Следим за изменением в localStorage
 watch(
   () => localStorage.getItem("isAuthenticated"),
   (newValue) => {
@@ -17,7 +15,6 @@ watch(
   }
 );
 
-// Передаем состояние вниз по компонентному дереву
 provide("isAuthenticated", isAuthenticated);
 </script>
 

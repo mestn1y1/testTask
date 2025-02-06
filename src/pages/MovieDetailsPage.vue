@@ -1,16 +1,12 @@
 <template>
-  <div>
-    <h1>Movies Details Page</h1>
-  </div>
+  <MovieDetails />
 </template>
 
 <script>
+import MovieDetails from "@/components/MovieDetails.vue";
 export default {
-  name: "HomePage",
-  data() {
-    return {
-      message: "Hello from HomePage component!",
-    };
+  components: {
+    MovieDetails,
   },
 };
 </script>

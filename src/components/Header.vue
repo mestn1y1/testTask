@@ -25,10 +25,13 @@ const logout = () => {
 <style scoped>
 header {
   width: 100%;
+}
+nav {
+  width: 100%;
   background: #333;
   padding: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
 }
 nav a {
