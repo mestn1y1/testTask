@@ -22,7 +22,6 @@ export default {
   },
   methods: {
     submitForm() {
-
       this.$emit("submit", { name: this.name, email: this.email });
     },
   },
@@ -36,7 +35,7 @@ export default {
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 form {
@@ -46,6 +45,8 @@ form {
 
 label {
   margin: 10px 0 5px;
+  color: #333;
+  text-align: left;
 }
 
 input {
@@ -53,6 +54,7 @@ input {
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  outline: none;
 }
 
 button {

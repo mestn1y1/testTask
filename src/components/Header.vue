@@ -1,9 +1,13 @@
 <template>
   <header>
     <nav>
-      <router-link to="/">Home</router-link>
-      <router-link v-if="isAuthenticated" to="/home">Movies</router-link>
-      <button v-if="isAuthenticated" @click="logout">Logout</button>
+      <div class="nav-links">
+        <router-link to="/">Home</router-link>
+        <router-link v-if="isAuthenticated" to="/home">Movies</router-link>
+      </div>
+      <button class="header-btn" v-if="isAuthenticated" @click="logout">
+        Logout
+      </button>
     </nav>
   </header>
 </template>
@@ -31,19 +35,30 @@ nav {
   background: #333;
   padding: 10px;
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
+  padding: 10px 20px;
 }
 nav a {
   color: white;
-  margin: 0 10px;
   text-decoration: none;
 }
-button {
-  background: red;
+nav a:hover {
+  color: #45a049;
+}
+.nav-links {
+  display: flex;
+  gap: 10px;
+}
+.header-btn {
+  padding: 5px 10px;
+  background-color: #4caf50;
   color: white;
   border: none;
-  padding: 5px 10px;
+  border-radius: 5px;
   cursor: pointer;
+}
+.header-btn:hover {
+  background-color: #45a049;
 }
 </style>

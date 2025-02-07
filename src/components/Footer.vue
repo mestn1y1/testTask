@@ -1,13 +1,13 @@
 <template>
   <footer class="footer">
-    <div class="footer-content">
-      <p>&copy; 2025 Your Company. All rights reserved.</p>
-      <div class="footer-links">
-        <router-link to="/privacy-policy">Privacy Policy</router-link>
+    <p>&copy; 2025 Your Company. All rights reserved.</p>
+    <ul class="footer-links">
+      <li><router-link to="/privacy-policy">Privacy Policy</router-link></li>
+      <li>
         <router-link to="/terms-of-service">Terms of Service</router-link>
-        <router-link to="/contact">Contact</router-link>
-      </div>
-    </div>
+      </li>
+      <li><router-link to="/contact">Contact</router-link></li>
+    </ul>
   </footer>
 </template>
 
@@ -23,24 +23,30 @@ export default {
   color: white;
   padding: 20px 0;
   text-align: center;
-}
-
-.footer-content {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 .footer-links {
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
 }
 
 .footer-links a {
   color: #4caf50;
-  margin: 0 10px;
   text-decoration: none;
 }
 
 .footer-links a:hover {
   text-decoration: underline;
+}
+
+@media screen and (min-width: 374px) {
+  .footer-links {
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+  }
 }
 </style>

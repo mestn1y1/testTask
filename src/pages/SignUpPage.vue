@@ -4,7 +4,7 @@
     <button v-if="isAuthenticated" @click="backToHome">Back to Home</button>
 
     <div v-else>
-      <h2>Register</h2>
+      <h2>Please sign up to continue</h2>
       <Form @submit="handleSubmit" />
     </div>
   </div>
@@ -32,6 +32,20 @@ const backToHome = () => {
 <style scoped>
 .container {
   height: 100vh;
+  background: url(/public/0585964.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container h2 {
+  font-size: 50px;
+  font-weight: bold;
+  color: #242424;
+  margin-bottom: 24px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 button {
@@ -42,9 +56,12 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 200px;
+  margin: 0 auto;
 }
 
 button:hover {
   background-color: #45a049;
 }
+
 </style>
