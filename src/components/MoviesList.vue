@@ -56,8 +56,8 @@ onMounted(loadMovies);
 }
 
 .movie-item-title-wrap {
-  padding-top: 4px;
-  padding-bottom: 2px;
+  padding-top: 10px;
+  padding-bottom: 8px;
   border: 1px solid #679969ed;
   border-top: none;
 }
@@ -117,6 +117,7 @@ h3 {
     flex-direction: column;
     padding-left: 20px;
     padding-right: 20px;
+    gap: 40px;
   }
   .movie-item {
     width: 100%;
