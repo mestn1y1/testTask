@@ -1,37 +1,56 @@
 <template>
   <div class="container">
     <h2 v-if="isAuthenticated">Welcome to the Movie Cluster!</h2>
-    <button v-if="isAuthenticated" @click="backToHome">Back to Home</button>
+    <button v-if="isAuthenticated" @click="backToHome">Back to Movies</button>
 
     <div v-else>
       <h2>Please sign up to continue</h2>
-      <Form @submit="handleSubmit" />
+      <Form
+        @submit="handleSubmit"
+        :username="formData.username"
+        :email="formData.email"
+        @update:username="formData.username = $event"
+        @update:email="formData.email = $event"
+        :formError="formError"
+      />
+      <p v-if="formError" class="error">Please fill in all fields.</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { inject } from "vue";
+import { inject, ref } from "vue";
 import { useRouter } from "vue-router";
 import Form from "@/components/Form.vue";
 
 const router = useRouter();
 const isAuthenticated = inject("isAuthenticated");
 
+const formData = ref({
+  username: "",
+  email: "",
+});
+
+const formError = ref(false);
+
 const handleSubmit = () => {
-  localStorage.setItem("isAuthenticated", "true");
-  isAuthenticated.value = true;
-  router.push("/home");
+  if (formData.value.username && formData.value.email) {
+    localStorage.setItem("isAuthenticated", "true");
+    isAuthenticated.value = true;
+    router.push("/movies");
+  } else {
+    formError.value = true;
+  }
 };
 
 const backToHome = () => {
-  router.push("/home");
+  router.push("/movies");
 };
 </script>
 
 <style scoped>
 .container {
-  height: 100vh;
+  height: 820px;
   background: url(/public/0585964.jpg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -46,6 +65,11 @@ const backToHome = () => {
   color: #242424;
   margin-bottom: 24px;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.error {
+  margin-top: 12px;
+  color: red;
 }
 
 button {
@@ -63,5 +87,4 @@ button {
 button:hover {
   background-color: #45a049;
 }
-
 </style>

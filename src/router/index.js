@@ -5,7 +5,7 @@ import MovieDetailsPage from "@/pages/MovieDetailsPage.vue";
 
 const routes = [
   { path: "/", component: SignUpPage },
-  { path: "/home", component: HomePage, meta: { requiresAuth: true } },
+  { path: "/movies", component: HomePage, meta: { requiresAuth: true } },
   { path: "/movie/:id", component: MovieDetailsPage },
 ];
 

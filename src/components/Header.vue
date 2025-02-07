@@ -3,7 +3,7 @@
     <nav>
       <div class="nav-links">
         <router-link to="/">Home</router-link>
-        <router-link v-if="isAuthenticated" to="/home">Movies</router-link>
+        <router-link v-if="isAuthenticated" to="/movies">Movies</router-link>
       </div>
       <button class="header-btn" v-if="isAuthenticated" @click="logout">
         Logout

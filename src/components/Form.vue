@@ -1,12 +1,22 @@
+
 <template>
   <div class="form-container">
     <form @submit.prevent="submitForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" v-model="name" />
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        id="username"
+        :value="username"
+        @input="$emit('update:username', $event.target.value)"
+      />
 
       <label for="email">Email:</label>
-      <input type="email" id="email" v-model="email" />
-
+      <input
+        type="email"
+        id="email"
+        :value="email"
+        @input="$emit('update:email', $event.target.value)"
+      />
       <button type="submit">Submit</button>
     </form>
   </div>
@@ -14,15 +24,23 @@
 
 <script>
 export default {
-  data() {
-    return {
-      name: "",
-      email: "",
-    };
+  props: {
+    username: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    formError: {
+      type: Boolean,
+      required: true,
+    },
   },
   methods: {
     submitForm() {
-      this.$emit("submit", { name: this.name, email: this.email });
+      this.$emit("submit");
     },
   },
 };
