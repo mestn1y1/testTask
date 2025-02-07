@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2 v-if="isAuthenticated">Welcome to the Movie Cluster!</h2>
-    <button v-if="isAuthenticated" @click="backToHome">Back to Movies</button>
+    <button v-if="isAuthenticated" @click="backToMovies">Back to Movies</button>
 
     <div v-else>
       <h2>Please sign up to continue</h2>
@@ -13,7 +13,6 @@
         @update:email="formData.email = $event"
         :formError="formError"
       />
-      <p v-if="formError" class="error">Please fill in all fields.</p>
     </div>
   </div>
 </template>
@@ -21,6 +20,8 @@
 <script setup>
 import { inject, ref } from "vue";
 import { useRouter } from "vue-router";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import Form from "@/components/Form.vue";
 
 const router = useRouter();
@@ -36,14 +37,25 @@ const formError = ref(false);
 const handleSubmit = () => {
   if (formData.value.username && formData.value.email) {
     localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem("username", formData.value.username);
     isAuthenticated.value = true;
     router.push("/movies");
+    toast(`Welcome, ${formData.value.username}!`, {
+      type: "success",
+      position: "top-right",
+      autoClose: 2000,
+    });
   } else {
     formError.value = true;
+    toast("Please fill in all fields", {
+      type: "error",
+      position: "top-right",
+      autoClose: 2000,
+    });
   }
 };
 
-const backToHome = () => {
+const backToMovies = () => {
   router.push("/movies");
 };
 </script>
@@ -51,7 +63,7 @@ const backToHome = () => {
 <style scoped>
 .container {
   height: 820px;
-  background: url(/public/0585964.jpg);
+  background: url(/0585964.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;

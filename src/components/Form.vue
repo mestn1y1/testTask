@@ -1,4 +1,3 @@
-
 <template>
   <div class="form-container">
     <form @submit.prevent="submitForm">

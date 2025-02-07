@@ -50,6 +50,7 @@ const loadMovies = async () => {
     toast("Error fetching movies", {
       type: "error",
       position: "top-right",
+      autoClose: 2000,
     });
   } finally {
     loading.value = false;

@@ -2,11 +2,11 @@
   <footer class="footer">
     <p>&copy; 2025 Your Company. All rights reserved.</p>
     <ul class="footer-links">
-      <li><router-link to="/privacy-policy">Privacy Policy</router-link></li>
+      <li><router-link to="/">Privacy Policy</router-link></li>
       <li>
-        <router-link to="/terms-of-service">Terms of Service</router-link>
+        <router-link to="/">Terms of Service</router-link>
       </li>
-      <li><router-link to="/contact">Contact</router-link></li>
+      <li><router-link to="/">Contact</router-link></li>
     </ul>
   </footer>
 </template>

@@ -81,6 +81,7 @@ const loadMovieDetails = async () => {
     toast("Error fetching movie details", {
       type: "error",
       position: "top-right",
+      autoClose: 2000,
     });
   } finally {
     loading.value = false;
