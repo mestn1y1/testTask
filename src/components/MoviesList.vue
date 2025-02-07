@@ -2,9 +2,19 @@
   <div v-if="loading" class="loader-wrapper">
     <FadeLoader color="#4caf50" />
   </div>
+
   <h1>Popular Movies</h1>
-  <ul class="movies">
-    <li v-for="movie in movies" :key="movie.id" class="movie-item">
+
+  <input
+    type="text"
+    v-model="searchQuery"
+    placeholder="Search for a movie..."
+    @input="filterMovies"
+    class="search-box"
+  />
+
+  <ul v-if="filteredMovies.length > 0" class="movies">
+    <li v-for="movie in filteredMovies" :key="movie.id" class="movie-item">
       <img
         :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
         :alt="movie.title"
@@ -17,23 +27,42 @@
       </div>
     </li>
   </ul>
+  <div v-else class="container-for-message"><h3>No match result</h3></div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { getMovies } from "@/api/movies.js";
 import { FadeLoader } from "vue3-spinner";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 const movies = ref([]);
+const filteredMovies = ref([]);
 const loading = ref(true);
+const searchQuery = ref("");
 
 const loadMovies = async () => {
   try {
     movies.value = await getMovies();
+    filteredMovies.value = movies.value;
   } catch (error) {
-    console.log("Error fetching movies:", error);
+    toast("Error fetching movies", {
+      type: "error",
+      position: "top-right",
+    });
   } finally {
     loading.value = false;
+  }
+};
+
+const filterMovies = () => {
+  if (!searchQuery.value) {
+    filteredMovies.value = movies.value;
+  } else {
+    filteredMovies.value = movies.value.filter((movie) =>
+      movie.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
   }
 };
 
@@ -41,6 +70,16 @@ onMounted(loadMovies);
 </script>
 
 <style scoped>
+.search-box {
+  padding: 10px;
+  margin: 10px 0;
+  width: 300px;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
 .movies {
   display: flex;
   flex-wrap: wrap;
@@ -75,6 +114,14 @@ h3 {
   font-size: 16px;
 }
 
+.container-for-message {
+  height: 710px;
+  padding-top: 300px;
+}
+
+.container-for-message h3 {
+  font-size: 40px;
+}
 .loader-wrapper {
   position: fixed;
   top: 50%;

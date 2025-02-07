@@ -21,6 +21,15 @@
         Rating: <span>{{ movie.vote_average }}</span>
       </p>
       <p>
+        Country:
+        <span>{{
+          movie.production_countries.map((country) => country.name).join(",")
+        }}</span>
+      </p>
+      <p>
+        Tag: <span>{{ movie.tagline }}</span>
+      </p>
+      <p>
         Budget :<span>
           {{
             new Intl.NumberFormat("en-US", {
@@ -39,29 +48,40 @@
       >
         Home page
       </a>
+      <button class="button-back" @click="backToMovies">Back to Movies</button>
     </div>
   </div>
-  <div v-else>
-    <p>Loading movie details...</p>
+  <div v-else class="container-for-message">
+    <h3>Not found movie details...</h3>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { getMovieDetails } from "../api/movies.js";
 import { FadeLoader } from "vue3-spinner";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 const movie = ref(null);
 const route = useRoute();
+const router = useRouter();
 const movieId = route.params.id;
 const loading = ref(true);
+
+const backToMovies = () => {
+  router.push("/movies");
+};
 
 const loadMovieDetails = async () => {
   try {
     movie.value = await getMovieDetails(movieId);
   } catch (error) {
-    console.error("Error fetching movie details:", error);
+    toast("Error fetching movie details", {
+      type: "error",
+      position: "top-right",
+    });
   } finally {
     loading.value = false;
   }
@@ -77,13 +97,16 @@ onMounted(loadMovieDetails);
   gap: 24px;
 }
 .details-wrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   text-align: left;
 }
 
 .home-page-link {
   display: block;
-  margin-top: 24px;
   cursor: pointer;
+  width: 100px;
 }
 
 .home-page-link:hover {
@@ -109,6 +132,15 @@ p {
 .overview {
   margin-bottom: 36px;
 }
+
+.container-for-message {
+  height: 810px;
+  padding-top: 300px;
+}
+
+.container-for-message h3 {
+  font-size: 46px;
+}
 .loader-wrapper {
   position: fixed;
   top: 50%;
@@ -123,12 +155,32 @@ p {
   z-index: 1000;
 }
 
+.button-back {
+  padding: 10px 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.button-back:hover {
+  background-color: #45a049;
+}
+
 @media screen and (min-width: 320px) and (max-width: 767px) {
   .container {
     flex-direction: column;
   }
   h1 {
     font-size: 26px;
+  }
+  .button-back {
+    margin-top: 24px;
+    width: 160px;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {
