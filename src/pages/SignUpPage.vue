@@ -37,14 +37,8 @@ const formError = ref(false);
 const handleSubmit = () => {
   if (formData.value.username && formData.value.email) {
     localStorage.setItem("isAuthenticated", "true");
-    localStorage.setItem("username", formData.value.username);
     isAuthenticated.value = true;
     router.push("/movies");
-    toast(`Welcome, ${formData.value.username}!`, {
-      type: "success",
-      position: "top-right",
-      autoClose: 2000,
-    });
   } else {
     formError.value = true;
     toast("Please fill in all fields", {

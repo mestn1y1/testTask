@@ -16,7 +16,7 @@
         :value="email"
         @input="$emit('update:email', $event.target.value)"
       />
-      <button type="submit">Submit</button>
+      <button>Submit</button>
     </form>
   </div>
 </template>
@@ -35,11 +35,6 @@ export default {
     formError: {
       type: Boolean,
       required: true,
-    },
-  },
-  methods: {
-    submitForm() {
-      this.$emit("submit");
     },
   },
 };
