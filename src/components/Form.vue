@@ -67,6 +67,7 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   outline: none;
+  background: transparent;
 }
 
 button {
