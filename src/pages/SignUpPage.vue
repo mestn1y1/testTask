@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <h2 v-if="isAuthenticated">Ласкаво просимо до Movie Cluster!</h2>
-    <button v-if="isAuthenticated" @click="backToMovies">
-      Назад до Фільмів
-    </button>
+    <button v-if="isAuthenticated" @click="backToMovies">До фільмів</button>
 
     <div v-else>
       <h2>Зареєструйся, щоб скористатися сервісом!</h2>
