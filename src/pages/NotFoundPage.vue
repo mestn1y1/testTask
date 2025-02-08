@@ -1,8 +1,8 @@
 <template>
   <div class="not-found">
-    <h2>Page Not Found</h2>
-    <p>The page you're looking for doesn't exist.</p>
-    <button @click="backToHome">Back to Home</button>
+    <h2>Сторінка не знайдена</h2>
+    <p>Сторінка, яку ви шукаєте, не існує.</p>
+    <button @click="backToHome">На Домашню</button>
   </div>
 </template>
 

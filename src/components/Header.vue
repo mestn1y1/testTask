@@ -2,11 +2,11 @@
   <header>
     <nav>
       <div class="nav-links">
-        <router-link to="/">Home</router-link>
-        <router-link v-if="isAuthenticated" to="/movies">Movies</router-link>
+        <router-link to="/">Домашня</router-link>
+        <router-link v-if="isAuthenticated" to="/movies">Фільми</router-link>
       </div>
       <button class="header-btn" v-if="isAuthenticated" @click="logout">
-        Logout
+        Вийти
       </button>
     </nav>
   </header>
@@ -18,9 +18,15 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 const isAuthenticated = inject("isAuthenticated");
+const searchQuery = inject("searchQuery");
+const page = inject("page");
 
 const logout = () => {
   localStorage.removeItem("isAuthenticated");
+  localStorage.removeItem("searchQuery");
+  localStorage.removeItem("page");
+  searchQuery.value = "";
+  page.value = 1;
   isAuthenticated.value = false;
   router.push("/");
 };

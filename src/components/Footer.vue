@@ -1,12 +1,12 @@
 <template>
   <footer class="footer">
-    <p>&copy; 2025 Your Company. All rights reserved.</p>
+    <p>&copy; 2025 Movie Cluster. Усі права захищено.</p>
     <ul class="footer-links">
-      <li><router-link to="/">Privacy Policy</router-link></li>
+      <li><router-link to="/">Політика конфіденційності</router-link></li>
       <li>
-        <router-link to="/">Terms of Service</router-link>
+        <router-link to="/">Умови обслуговування</router-link>
       </li>
-      <li><router-link to="/">Contact</router-link></li>
+      <li><router-link to="/">Контакти</router-link></li>
     </ul>
   </footer>
 </template>

@@ -11,26 +11,26 @@
       <h1>{{ movie.title }}</h1>
       <p class="overview">{{ movie.overview }}</p>
       <p>
-        Release Date: <span>{{ movie.release_date }}</span>
+        Дата релізу: <span>{{ movie.release_date }}</span>
       </p>
       <p>
-        Genre :
+        Жанр :
         <span>{{ movie.genres.map((genre) => genre.name).join(", ") }}</span>
       </p>
       <p>
-        Rating: <span>{{ movie.vote_average }}</span>
+        Рейтинг: <span>{{ movie.vote_average }}</span>
       </p>
       <p>
-        Country:
+        Країна:
         <span>{{
           movie.production_countries.map((country) => country.name).join(",")
         }}</span>
       </p>
-      <p>
-        Tag: <span>{{ movie.tagline }}</span>
+      <p v-if="movie.tagline">
+        Тег: <span>{{ movie.tagline }}</span>
       </p>
       <p>
-        Budget :<span>
+        Бюджет :<span>
           {{
             new Intl.NumberFormat("en-US", {
               style: "currency",
@@ -46,13 +46,13 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        Home page
+        Домашня сторінка фільму
       </a>
-      <button class="button-back" @click="backToMovies">Back to Movies</button>
+      <button class="button-back" @click="backToMovies">До фільмів</button>
     </div>
   </div>
   <div v-else class="container-for-message">
-    <h3>Not found movie details...</h3>
+    <h3>Не знайдено інформації ...</h3>
   </div>
 </template>
 
@@ -78,7 +78,7 @@ const loadMovieDetails = async () => {
   try {
     movie.value = await getMovieDetails(movieId);
   } catch (error) {
-    toast("Error fetching movie details", {
+    toast("Помилка при отриманні деталей фільму", {
       type: "error",
       position: "top-right",
       autoClose: 2000,
@@ -96,6 +96,7 @@ onMounted(loadMovieDetails);
   padding: 32px 20px;
   display: flex;
   gap: 24px;
+  min-height: 818px;
 }
 .details-wrap {
   display: flex;
@@ -105,9 +106,9 @@ onMounted(loadMovieDetails);
 }
 
 .home-page-link {
-  display: block;
+  display: inline-block;
   cursor: pointer;
-  width: 100px;
+  width: 200px;
 }
 
 .home-page-link:hover {

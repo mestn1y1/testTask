@@ -1,10 +1,12 @@
 <template>
   <div class="container">
-    <h2 v-if="isAuthenticated">Welcome to the Movie Cluster!</h2>
-    <button v-if="isAuthenticated" @click="backToMovies">Back to Movies</button>
+    <h2 v-if="isAuthenticated">Ласкаво просимо до Movie Cluster!</h2>
+    <button v-if="isAuthenticated" @click="backToMovies">
+      Назад до Фільмів
+    </button>
 
     <div v-else>
-      <h2>Please sign up to continue</h2>
+      <h2>Зареєструйся, щоб скористатися сервісом!</h2>
       <Form
         @submit="handleSubmit"
         :username="formData.username"
@@ -41,7 +43,7 @@ const handleSubmit = () => {
     router.push("/movies");
   } else {
     formError.value = true;
-    toast("Please fill in all fields", {
+    toast("Будь ласка, заповніть всі поля.", {
       type: "error",
       position: "top-right",
       autoClose: 2000,
@@ -66,7 +68,7 @@ const backToMovies = () => {
 }
 
 .container h2 {
-  font-size: 50px;
+  font-size: 40px;
   font-weight: bold;
   color: #242424;
   margin-bottom: 24px;

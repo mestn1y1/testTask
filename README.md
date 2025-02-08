@@ -1,3 +1,3 @@
 #
 
-Movie Cluster is a user-friendly platform for discovering and exploring movies. Find popular films, check out detailed information, read reviews, and view ratings. With an intuitive interface and seamless navigation, it’s the perfect tool for all movie enthusiasts.
+Movie Cluster — це зручна платформа для пошуку та перегляду фільмів. Знайдіть популярні фільми, перегляньте детальну інформацію та переглядайте рейтинги. Завдяки інтуїтивно зрозумілому інтерфейсу та безперешкодній навігації це ідеальний інструмент для всіх кіноманів.

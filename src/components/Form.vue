@@ -1,7 +1,7 @@
 <template>
   <div class="form-container">
     <form @submit.prevent="submitForm">
-      <label for="username">Username:</label>
+      <label for="username">Ім'я:</label>
       <input
         type="text"
         id="username"
@@ -16,7 +16,7 @@
         :value="email"
         @input="$emit('update:email', $event.target.value)"
       />
-      <button>Submit</button>
+      <button>Зареєструватися</button>
     </form>
   </div>
 </template>

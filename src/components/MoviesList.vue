@@ -3,16 +3,28 @@
     <FadeLoader color="#4caf50" />
   </div>
 
-  <h1>Popular Movies</h1>
+  <h1 class="title">Популярні фільми</h1>
 
   <input
     type="text"
     v-model="searchQuery"
-    placeholder="Search for a movie..."
+    placeholder="Шукати фільм..."
     @input="filterMovies"
     class="search-box"
   />
 
+  <div class="pagination" v-if="filteredMovies.length >= 20 && totalPages > 1">
+    <button @click="changePage('prev')" :disabled="page <= 1 || loading">
+      Попередня
+    </button>
+    <span>ст.. {{ page }} з {{ totalPages }}</span>
+    <button
+      @click="changePage('next')"
+      :disabled="page >= totalPages || loading"
+    >
+      Наступна
+    </button>
+  </div>
   <ul v-if="filteredMovies.length > 0" class="movies">
     <li v-for="movie in filteredMovies" :key="movie.id" class="movie-item">
       <img
@@ -22,32 +34,42 @@
       <div class="movie-item-title-wrap">
         <h3>{{ movie.title }}</h3>
         <router-link :to="'/movie/' + movie.id" class="movie-button">
-          Details
+          Детальніше
         </router-link>
       </div>
     </li>
   </ul>
-  <div v-else class="container-for-message"><h3>No match result</h3></div>
+
+  <div v-else class="container-for-message">
+    <h3>Немає результатів</h3>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { inject, ref, onMounted } from "vue";
 import { getMovies } from "@/api/movies.js";
 import { FadeLoader } from "vue3-spinner";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
+const searchQuery = inject("searchQuery");
+const page = inject("page");
+
 const movies = ref([]);
 const filteredMovies = ref([]);
 const loading = ref(true);
-const searchQuery = ref("");
+const totalPages = ref(1);
 
 const loadMovies = async () => {
+  loading.value = true;
+
   try {
-    movies.value = await getMovies();
+    const data = await getMovies(page.value);
+    movies.value = data.results;
     filteredMovies.value = movies.value;
+    totalPages.value = data.total_pages;
   } catch (error) {
-    toast("Error fetching movies", {
+    toast("Помилка при отриманні фільмів", {
       type: "error",
       position: "top-right",
       autoClose: 2000,
@@ -55,6 +77,15 @@ const loadMovies = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+const changePage = (direction) => {
+  if (direction === "next" && page.value < totalPages.value) {
+    page.value++;
+  } else if (direction === "prev" && page.value > 1) {
+    page.value--;
+  }
+  loadMovies();
 };
 
 const filterMovies = () => {
@@ -67,10 +98,13 @@ const filterMovies = () => {
   }
 };
 
-onMounted(loadMovies);
+onMounted(() => loadMovies());
 </script>
 
 <style scoped>
+.title {
+  margin-top: 24px;
+}
 .search-box {
   padding: 10px;
   margin: 10px 0;
@@ -87,6 +121,7 @@ onMounted(loadMovies);
   gap: 20px;
   justify-content: center;
   padding: 20px;
+  min-height: 710px;
 }
 
 .movie-item {
@@ -98,13 +133,15 @@ onMounted(loadMovies);
 .movie-item-title-wrap {
   padding-top: 10px;
   padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
   border: 1px solid #679969ed;
   border-top: none;
 }
 
 .movie-item img {
   width: 100%;
-  height: auto;
+  height: 450px;
 }
 
 .movie-button:hover {
@@ -113,6 +150,10 @@ onMounted(loadMovies);
 
 h3 {
   font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .container-for-message {
@@ -123,6 +164,7 @@ h3 {
 .container-for-message h3 {
   font-size: 40px;
 }
+
 .loader-wrapper {
   position: fixed;
   top: 50%;
@@ -136,6 +178,32 @@ h3 {
   background: rgba(68, 67, 67, 0.8);
   z-index: 1000;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.pagination button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.pagination button:hover {
+  background-color: #45a049;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .movie-item h3 {
     font-size: 14px;
@@ -144,7 +212,11 @@ h3 {
     width: calc(25% - 16px);
     text-align: center;
   }
+  .movie-item img {
+    height: 320px;
+  }
 }
+
 @media screen and (min-width: 475px) and (max-width: 767px) {
   .movies {
     flex-direction: row;
@@ -160,7 +232,11 @@ h3 {
     font-size: 16px;
   }
 }
+
 @media screen and (min-width: 320px) and (max-width: 475px) {
+  .search-box {
+    width: 280px;
+  }
   .movies {
     flex-direction: column;
     padding-left: 20px;
@@ -170,6 +246,20 @@ h3 {
   .movie-item {
     width: 100%;
     text-align: center;
+  }
+  .movie-item img {
+    height: auto;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+  .pagination {
+    font-size: 14px;
+  }
+
+  .pagination button {
+    padding: 8px;
   }
 }
 </style>
