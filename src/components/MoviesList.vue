@@ -27,15 +27,13 @@
   </div>
   <ul v-if="filteredMovies.length > 0" class="movies">
     <li v-for="movie in filteredMovies" :key="movie.id" class="movie-item">
-      <img
-        :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-        :alt="movie.title"
-      />
+      <router-link :to="'/movie/' + movie.id" class="movie-button">
+        <img
+          :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+          :alt="movie.title"
+      /></router-link>
       <div class="movie-item-title-wrap">
         <h3>{{ movie.title }}</h3>
-        <router-link :to="'/movie/' + movie.id" class="movie-button">
-          Детальніше
-        </router-link>
       </div>
     </li>
   </ul>
@@ -122,6 +120,7 @@ onMounted(() => loadMovies());
   justify-content: center;
   padding: 20px;
   min-height: 710px;
+  padding-bottom: 40px;
 }
 
 .movie-item {
@@ -129,12 +128,12 @@ onMounted(() => loadMovies());
   text-align: center;
   border-radius: 5px;
 }
+.movie-item:hover {
+  color: #45a049;
+}
 
 .movie-item-title-wrap {
-  padding-top: 10px;
-  padding-bottom: 8px;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding: 10px;
   border: 1px solid #679969ed;
   border-top: none;
 }
@@ -204,7 +203,11 @@ h3 {
   cursor: not-allowed;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+@media screen and (min-width: 768px) and (max-width: 1440px) {
+  .movies {
+    gap: 20px;
+  }
+
   .movie-item h3 {
     font-size: 14px;
   }
@@ -212,12 +215,9 @@ h3 {
     width: calc(25% - 16px);
     text-align: center;
   }
-  .movie-item img {
-    height: 320px;
-  }
 }
 
-@media screen and (min-width: 475px) and (max-width: 767px) {
+@media screen and (min-width: 475px) and (max-width: 1024px) {
   .movies {
     flex-direction: row;
     padding-left: 20px;
@@ -230,6 +230,9 @@ h3 {
   }
   .movie-item h3 {
     font-size: 16px;
+  }
+  .movie-item img {
+    height: 570px;
   }
 }
 

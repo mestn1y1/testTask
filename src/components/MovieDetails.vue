@@ -9,7 +9,9 @@
     />
     <div class="details-wrap">
       <h1>{{ movie.title }}</h1>
-      <p class="overview">{{ movie.overview }}</p>
+      <p class="overview">
+        {{ movie.overview || "Нажаль немає опису про фільм" }}
+      </p>
       <p>
         Дата релізу : <span>{{ movie.release_date }}</span>
       </p>
@@ -33,7 +35,7 @@
       <p v-if="movie.tagline">
         Слоган : <span>{{ movie.tagline }}</span>
       </p>
-      <p>
+      <p v-if="movie.budget">
         Бюджет :<span>
           {{
             new Intl.NumberFormat("en-US", {
@@ -42,6 +44,14 @@
             }).format(movie.budget)
           }}</span
         >
+      </p>
+      <p v-if="movie.production_companies">
+        Студії :
+        <span>
+          {{
+            movie.production_companies.map((company) => company.name).join(", ")
+          }}
+        </span>
       </p>
       <a
         v-if="movie.homepage"
