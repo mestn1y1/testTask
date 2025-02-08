@@ -11,23 +11,27 @@
       <h1>{{ movie.title }}</h1>
       <p class="overview">{{ movie.overview }}</p>
       <p>
-        Дата релізу: <span>{{ movie.release_date }}</span>
+        Дата релізу : <span>{{ movie.release_date }}</span>
       </p>
       <p>
         Жанр :
         <span>{{ movie.genres.map((genre) => genre.name).join(", ") }}</span>
       </p>
       <p>
-        Рейтинг: <span>{{ movie.vote_average }}</span>
+        Рейтинг : <span>{{ movie.vote_average }}</span>
       </p>
       <p>
-        Країна:
-        <span>{{
-          movie.production_countries.map((country) => country.name).join(",")
-        }}</span>
+        Країна :
+        <span>
+          {{
+            movie.production_countries
+              .map((country) => translateCountry(country.iso_3166_1))
+              .join(", ")
+          }}
+        </span>
       </p>
       <p v-if="movie.tagline">
-        Тег: <span>{{ movie.tagline }}</span>
+        Слоган : <span>{{ movie.tagline }}</span>
       </p>
       <p>
         Бюджет :<span>
@@ -61,9 +65,16 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getMovieDetails } from "../api/movies.js";
 import { FadeLoader } from "vue3-spinner";
+import countries from "i18n-iso-countries";
+import uk from "i18n-iso-countries/langs/uk.json";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
+countries.registerLocale(uk);
+
+const translateCountry = (code) => {
+  return countries.getName(code, "uk") || code;
+};
 const movie = ref(null);
 const route = useRoute();
 const router = useRouter();
