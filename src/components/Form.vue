@@ -68,6 +68,7 @@ input {
   border-radius: 4px;
   outline: none;
   background: transparent;
+  color: #333;
 }
 
 button {
