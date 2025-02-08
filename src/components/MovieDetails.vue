@@ -45,14 +45,6 @@
           }}</span
         >
       </p>
-      <p v-if="movie.production_companies">
-        Студії :
-        <span>
-          {{
-            movie.production_companies.map((company) => company.name).join(", ")
-          }}
-        </span>
-      </p>
       <a
         v-if="movie.homepage"
         :href="movie.homepage"
@@ -62,6 +54,18 @@
       >
         Домашня сторінка фільму
       </a>
+
+      <p>Студії :</p>
+      <ul v-if="movie.production_companies" class="company-img-list">
+        <li v-for="company in movie.production_companies" :key="company.id">
+          <img
+            v-if="company.logo_path"
+            :src="'https://image.tmdb.org/t/p/w200' + company.logo_path"
+            :alt="company.name"
+            class="company-img"
+          />
+        </li>
+      </ul>
       <button class="button-back" @click="backToMovies">До фільмів</button>
     </div>
   </div>
@@ -118,6 +122,7 @@ onMounted(loadMovieDetails);
   display: flex;
   gap: 24px;
   min-height: 818px;
+  background: #3e413e;
 }
 .details-wrap {
   display: flex;
@@ -134,6 +139,17 @@ onMounted(loadMovieDetails);
 
 .home-page-link:hover {
   color: #6ca56e;
+}
+
+.company-img-list {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.company-img {
+  display: inline-block;
+  width: 100px;
 }
 
 span {
@@ -202,8 +218,11 @@ p {
     font-size: 26px;
   }
   .button-back {
-    margin-top: 24px;
     width: 160px;
+  }
+  .company-img {
+    width: 50px;
+    max-height: 40px;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {
@@ -215,6 +234,10 @@ p {
   }
   h1 {
     font-size: 26px;
+  }
+  .company-img {
+    width: 100px;
+    max-height: 50px;
   }
 }
 </style>
