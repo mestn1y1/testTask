@@ -8,7 +8,7 @@
   <input
     type="text"
     v-model="searchQuery"
-    placeholder="Шукати фільм..."
+    placeholder="Фільтрація по назві"
     @input="filterMovies"
     class="search-box"
   />
