@@ -153,6 +153,7 @@ onMounted(loadMovieDetails);
   display: inline-block;
   cursor: pointer;
   width: 200px;
+  margin-bottom: 24px;
 }
 
 .home-page-link:hover {
