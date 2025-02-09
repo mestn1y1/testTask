@@ -45,6 +45,17 @@
           }}</span
         >
       </p>
+      <p v-if="uniqueCompanies.length > 0">Студії :</p>
+      <ul v-if="uniqueCompanies" class="company-img-list">
+        <li v-for="company in uniqueCompanies" :key="company.id">
+          <img
+            v-if="company.logo_path"
+            :src="'https://image.tmdb.org/t/p/w200' + company.logo_path"
+            :alt="company.name"
+            class="company-img"
+          />
+        </li>
+      </ul>
       <a
         v-if="movie.homepage"
         :href="movie.homepage"
@@ -54,18 +65,6 @@
       >
         Домашня сторінка фільму
       </a>
-
-      <p>Студії :</p>
-      <ul v-if="movie.production_companies" class="company-img-list">
-        <li v-for="company in movie.production_companies" :key="company.id">
-          <img
-            v-if="company.logo_path"
-            :src="'https://image.tmdb.org/t/p/w200' + company.logo_path"
-            :alt="company.name"
-            class="company-img"
-          />
-        </li>
-      </ul>
       <button class="button-back" @click="backToMovies">До фільмів</button>
     </div>
   </div>
@@ -75,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getMovieDetails } from "../api/movies.js";
 import { FadeLoader } from "vue3-spinner";
@@ -86,14 +85,33 @@ import "vue3-toastify/dist/index.css";
 
 countries.registerLocale(uk);
 
-const translateCountry = (code) => {
-  return countries.getName(code, "uk") || code;
-};
 const movie = ref(null);
+const loading = ref(true);
 const route = useRoute();
 const router = useRouter();
 const movieId = route.params.id;
-const loading = ref(true);
+
+const filterUniqueByName = (companies) => {
+  if (!companies) return [];
+  const seen = new Set();
+  return companies.filter((company) => {
+    if (seen.has(company.name)) {
+      return false;
+    }
+    seen.add(company.name);
+    return true;
+  });
+};
+
+const uniqueCompanies = computed(() => {
+  return movie.value?.production_companies
+    ? filterUniqueByName(movie.value.production_companies)
+    : [];
+});
+
+const translateCountry = (code) => {
+  return countries.getName(code, "uk") || code;
+};
 
 const backToMovies = () => {
   router.push("/movies");
